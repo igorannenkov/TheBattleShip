@@ -14,29 +14,17 @@ namespace TheBattleShip
 
             switch (shipPosition.orientation)
             {
-                case ShipPosition.Orientation.Down:
+                case ShipPosition.Orientation.Vertical:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x, y + 1].cellState = Cell.CellState.Undamaged;
                     field[x, y + 2].cellState = Cell.CellState.Undamaged;
                     field[x, y + 3].cellState = Cell.CellState.Undamaged;
                     break;
-                case ShipPosition.Orientation.Up:
-                    field[x, y].cellState = Cell.CellState.Undamaged;
-                    field[x, y - 1].cellState = Cell.CellState.Undamaged;
-                    field[x, y - 2].cellState = Cell.CellState.Undamaged;
-                    field[x, y - 3].cellState = Cell.CellState.Undamaged;
-                    break;
-                case ShipPosition.Orientation.Right:
+                case ShipPosition.Orientation.Horizontal:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x + 1, y].cellState = Cell.CellState.Undamaged;
                     field[x + 2, y].cellState = Cell.CellState.Undamaged;
                     field[x + 3, y].cellState = Cell.CellState.Undamaged;
-                    break;
-                case ShipPosition.Orientation.Left:
-                    field[x, y].cellState = Cell.CellState.Undamaged;
-                    field[x - 1, y].cellState = Cell.CellState.Undamaged;
-                    field[x - 2, y].cellState = Cell.CellState.Undamaged;
-                    field[x - 3, y].cellState = Cell.CellState.Undamaged;
                     break;
             }
         }
@@ -48,25 +36,16 @@ namespace TheBattleShip
 
             switch (shipPosition.orientation)
             {
-                case ShipPosition.Orientation.Down:
+                case ShipPosition.Orientation.Vertical:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x, y + 1].cellState = Cell.CellState.Undamaged;
                     field[x, y + 2].cellState = Cell.CellState.Undamaged;
                     break;
-                case ShipPosition.Orientation.Up:
-                    field[x, y].cellState = Cell.CellState.Undamaged;
-                    field[x, y - 1].cellState = Cell.CellState.Undamaged;
-                    field[x, y - 2].cellState = Cell.CellState.Undamaged;
-                    break;
-                case ShipPosition.Orientation.Right:
+
+                case ShipPosition.Orientation.Horizontal:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x + 1, y].cellState = Cell.CellState.Undamaged;
                     field[x + 2, y].cellState = Cell.CellState.Undamaged;
-                    break;
-                case ShipPosition.Orientation.Left:
-                    field[x, y].cellState = Cell.CellState.Undamaged;
-                    field[x - 1, y].cellState = Cell.CellState.Undamaged;
-                    field[x - 2, y].cellState = Cell.CellState.Undamaged;
                     break;
             }
         }
@@ -78,21 +57,14 @@ namespace TheBattleShip
 
             switch (shipPosition.orientation)
             {
-                case ShipPosition.Orientation.Down:
+                case ShipPosition.Orientation.Vertical:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x, y + 1].cellState = Cell.CellState.Undamaged;
                     break;
-                case ShipPosition.Orientation.Up:
-                    field[x, y].cellState = Cell.CellState.Undamaged;
-                    field[x, y - 1].cellState = Cell.CellState.Undamaged;
-                    break;
-                case ShipPosition.Orientation.Right:
+
+                case ShipPosition.Orientation.Horizontal:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x + 1, y].cellState = Cell.CellState.Undamaged;
-                    break;
-                case ShipPosition.Orientation.Left:
-                    field[x, y].cellState = Cell.CellState.Undamaged;
-                    field[x - 1, y].cellState = Cell.CellState.Undamaged;
                     break;
             }
         }

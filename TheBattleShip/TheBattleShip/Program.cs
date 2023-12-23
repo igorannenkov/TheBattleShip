@@ -11,8 +11,8 @@ namespace TheBattleShip
     {
         static void Main(string[] args)
         {
-            int posX = 0;
-            int posY = 0;
+            int posX = 9;
+            int posY = 5;
             Cell[,] field = Game.CeateNewField(10, 10);
 
             field[9, 4] = new Cell(Cell.CellState.Undamaged);
@@ -22,7 +22,11 @@ namespace TheBattleShip
             field[8, 0] = new Cell(Cell.CellState.Undamaged);
             field[0, 9] = new Cell(Cell.CellState.Undamaged);
 
-            ShipPosition shipPos = new ShipPosition(posX, posY, ShipPosition.Orientation.Right);
+            ShipPosition.Orientation currentOrientation = ShipPosition.Orientation.Vertical;
+
+           
+
+            ShipPosition shipPos = new ShipPosition(posX, posY, ShipPosition.Orientation.Vertical);
             PlacementValidator.Result placementResult = PlacementValidator.FourDeckShipPlacementResult(field, shipPos);
 
             Game.DrawField(field);
@@ -43,23 +47,46 @@ namespace TheBattleShip
             while (true)
             {
                     switch (keyInfo.Key)
-                    { //тут баг на баге ниже добавить отдельно placement result
-                        case ConsoleKey.RightArrow:
-                        if(PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X + 1, shipPos.Y, ShipPosition.Orientation.Right)) != PlacementValidator.Result.OutOfRange)
+                    {
+                    case ConsoleKey.R:
+                        if (shipPos.orientation == ShipPosition.Orientation.Horizontal)
+                        {
+                            if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y, ShipPosition.Orientation.Vertical)) != PlacementValidator.Result.OutOfRange)
+                            {
+                                shipPos.orientation = ShipPosition.Orientation.Vertical;
+                                currentOrientation = shipPos.orientation;
+                            }
+                            break;
+                        }
+                        if (shipPos.orientation == ShipPosition.Orientation.Vertical)
+                        {
+                            if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y, ShipPosition.Orientation.Horizontal)) != PlacementValidator.Result.OutOfRange)
+                            {
+                                shipPos.orientation = ShipPosition.Orientation.Horizontal;
+                                currentOrientation = shipPos.orientation;
+                            }
+                            break;
+                        }
+                        break;     
+
+                    case ConsoleKey.RightArrow:
+                        if(PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X + 1, shipPos.Y, currentOrientation)) != PlacementValidator.Result.OutOfRange)
                             shipPos.X += 1;
                             break;
+
                         case ConsoleKey.LeftArrow:
-                        if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X - 1, shipPos.Y, ShipPosition.Orientation.Right)) != PlacementValidator.Result.OutOfRange)
+                        if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X - 1, shipPos.Y, currentOrientation)) != PlacementValidator.Result.OutOfRange)
                             shipPos.X -= 1;
                             break;
+
                         case ConsoleKey.UpArrow:
-                        if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y - 1, ShipPosition.Orientation.Right)) != PlacementValidator.Result.OutOfRange)
+                        if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y - 1, currentOrientation)) != PlacementValidator.Result.OutOfRange)
                             shipPos.Y -= 1;
                             break;
+
                         case ConsoleKey.DownArrow:
-                        if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y + 1, ShipPosition.Orientation.Right)) != PlacementValidator.Result.OutOfRange)
+                        if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y + 1, currentOrientation)) != PlacementValidator.Result.OutOfRange)
                             shipPos.Y += 1;
-                       
                             break;
                     }
                 // после каждого изменения координат проверяем положение.
@@ -72,7 +99,7 @@ namespace TheBattleShip
                     Game.DrawShip(shipRank: 4, shipPos, placementResult);
                 }
 
-                Console.Title = "{" + shipPos.X + "} -- {" + shipPos.Y + "} ";
+                Console.Title = "X: " + shipPos.X + "  Y: " + shipPos.Y + "  Orientation " + currentOrientation;
                 //Console.Title = "{" + Convert.ToChar(1040 + shipPos.X) + "} -- {" + shipPos.Y + "} ";
                 keyInfo = Console.ReadKey();
             }

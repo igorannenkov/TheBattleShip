@@ -256,9 +256,13 @@ namespace TheBattleShip
             switch (placementResult)
             {
                 case PlacementValidator.Result.Correct:
-                    Console.ForegroundColor = ConsoleColor.Green; break;
+                    Console.ForegroundColor = ConsoleColor.Green; 
+                    break;
+
                 case PlacementValidator.Result.Incorrect:
-                    Console.ForegroundColor = ConsoleColor.Red; break;
+                    Console.ForegroundColor = ConsoleColor.Red; 
+                    break;
+
                 case PlacementValidator.Result.OutOfRange:
                     break;
             }
@@ -267,28 +271,16 @@ namespace TheBattleShip
             // Console.SetCursorPosition(x * 2, y * 2);
             switch (shipPosition.orientation)
             {
-                case ShipPosition.Orientation.Up:
-                    for (int i = 0; i < shipRank; i++)
-                    {
-                        Console.SetCursorPosition(x , y - i);
-                        Console.Write("░░");   
-                    }
-                    break;
-                case ShipPosition.Orientation.Down:
+
+                case ShipPosition.Orientation.Vertical:
                     for (int i = 0; i < shipRank; i++)
                     {  
                         Console.SetCursorPosition(x , y + i);
                         Console.Write("░░");
                     }
                     break;
-                case ShipPosition.Orientation.Left:
-                    for (int i = 0; i < shipRank; i++)
-                    {
-                        Console.SetCursorPosition((x ) - (i * 2), y );
-                        Console.Write("░░");
-                    }
-                    break;
-                case ShipPosition.Orientation.Right:
+
+                case ShipPosition.Orientation.Horizontal:
                     for (int i = 0; i < shipRank; i++)
                     {         
                         Console.Write("░░");

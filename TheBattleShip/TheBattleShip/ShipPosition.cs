@@ -10,10 +10,8 @@ namespace TheBattleShip
     {
         public enum Orientation
         {
-            Right,
-            Down,
-            Left,
-            Up
+            Horizontal,
+            Vertical
         }
 
         public Orientation orientation;
@@ -52,7 +50,7 @@ namespace TheBattleShip
         {
             this.X = 0;
             this.Y = 0;
-            this.orientation = Orientation.Right;
+            this.orientation = Orientation.Horizontal;
         }
 
         public ShipPosition(int x, int y, Orientation orientation)
