@@ -107,6 +107,54 @@ namespace TheBattleShip
         }
 
 
+        public static void DrawField(Cell[,] field)
+        {
+            int width = (int)Math.Sqrt(field.Length);
+            int height = (int)Math.Sqrt(field.Length);
+            
+
+            for (int p = 0; p < height; p++)
+            {
+                Console.Write(" " + Convert.ToChar(1040 + p));
+            }         
+
+            Console.WriteLine();
+
+            for (int i = 0; i < width; i++)
+            {
+                Console.Write(i);
+                for (int j = 0; j < height; j++)
+                {
+                    switch (field[j, i].cellState)
+                    {
+                        case Cell.CellState.Dead:
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("░░");
+                            Console.ResetColor();
+                            break;
+                        case Cell.CellState.Empty:
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("░░");
+                            Console.ResetColor();
+                            break;
+                        case Cell.CellState.Missed:
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write("░░");
+                            Console.ResetColor();
+                            break;
+                        case Cell.CellState.Undamaged:
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.Write("░░");
+                            Console.ResetColor();
+                            break;
+                    }
+
+                }
+                Console.WriteLine();
+            }
+               
+        }
+    /*
         static void GenerateFourDeckedShips(ref Cell[,] field)
         {
             int ships = 1;
@@ -115,8 +163,8 @@ namespace TheBattleShip
             {
                 int x = random.Next(10);
                 int y = random.Next(10);
-                ShipSpawner.SpawnDirection direction = (ShipSpawner.SpawnDirection)random.Next(1, 5);
-                if (PlacementValidator.FourDeckShipPlacementResult(field, x, y, direction) == PlacementValidator.PlacementResult.Correct)
+                ShipSpawner.Orientation direction = (ShipSpawner.Orientation)random.Next(1, 5);
+                if (PlacementValidator.FourDeckShipPlacementResult(field, x, y, direction) == PlacementValidator.Result.Correct)
                 {
                     ShipSpawner.SpawnFourDeckedShip(ref field, x, y, direction);
                     ships--;
@@ -133,8 +181,8 @@ namespace TheBattleShip
             {
                 int x = random.Next(10);
                 int y = random.Next(10);
-                ShipSpawner.SpawnDirection direction = (ShipSpawner.SpawnDirection)random.Next(1, 5);
-                if (PlacementValidator.ThreeDeckShipPlacementResult(field, x, y, direction) == PlacementValidator.PlacementResult.Correct)
+                ShipSpawner.Orientation direction = (ShipSpawner.Orientation)random.Next(1, 5);
+                if (PlacementValidator.ThreeDeckShipPlacementResult(field, x, y, direction) == PlacementValidator.Result.Correct)
                 {
                     ShipSpawner.SpawnThreeDeckedShip(ref field, x, y, direction);
                     ships--;
@@ -151,8 +199,8 @@ namespace TheBattleShip
             {
                 int x = random.Next(10);
                 int y = random.Next(10);
-                ShipSpawner.SpawnDirection direction = (ShipSpawner.SpawnDirection)random.Next(1, 5);
-                if (PlacementValidator.TwoDeckShipPlacementIsValid(field, x, y, direction) == PlacementValidator.PlacementResult.Correct)
+                ShipSpawner.Orientation direction = (ShipSpawner.Orientation)random.Next(1, 5);
+                if (PlacementValidator.TwoDeckShipPlacementIsValid(field, x, y, direction) == PlacementValidator.Result.Correct)
                 {
                     ShipSpawner.SpawnTwoDeckedShip(ref field, x, y, direction);
                     ships--;
@@ -169,8 +217,8 @@ namespace TheBattleShip
             {
                 int x = random.Next(10);
                 int y = random.Next(10);
-                ShipSpawner.SpawnDirection direction = (ShipSpawner.SpawnDirection)random.Next(1, 5);
-                if (PlacementValidator.OneDeckShipPlacementIsValid(field, x, y) == PlacementValidator.PlacementResult.Correct)
+                ShipSpawner.Orientation direction = (ShipSpawner.Orientation)random.Next(1, 5);
+                if (PlacementValidator.OneDeckShipPlacementIsValid(field, x, y) == PlacementValidator.Result.Correct)
                 {
                     ShipSpawner.SpawnOneDeckedShip(ref field, x, y);
                     ships--;
@@ -178,7 +226,8 @@ namespace TheBattleShip
 
             } while (ships > 0);
         }
-
+        */
+    /*
         public static void GenerateShips(ref Cell[,] myField, ref Cell[,] enemyField)
         {
             GenerateFourDeckedShips(ref myField);
@@ -191,6 +240,64 @@ namespace TheBattleShip
             GenerateTwoDeckedShips(ref enemyField); Thread.Sleep(2);
             GenerateOneDeckedShips(ref enemyField);
         }
+    */
+
+        public static void DrawShip(int shipRank, ShipPosition shipPosition, PlacementValidator.Result placementResult)
+        {
+            if (placementResult == PlacementValidator.Result.OutOfRange)
+            {
+                return;
+            }
+
+            int x = (shipPosition.X * 2) + 1;
+            int y = shipPosition.Y + 1;
+            Console.SetCursorPosition(x, y);
+
+            switch (placementResult)
+            {
+                case PlacementValidator.Result.Correct:
+                    Console.ForegroundColor = ConsoleColor.Green; break;
+                case PlacementValidator.Result.Incorrect:
+                    Console.ForegroundColor = ConsoleColor.Red; break;
+                case PlacementValidator.Result.OutOfRange:
+                    break;
+            }
+
+
+            // Console.SetCursorPosition(x * 2, y * 2);
+            switch (shipPosition.orientation)
+            {
+                case ShipPosition.Orientation.Up:
+                    for (int i = 0; i < shipRank; i++)
+                    {
+                        Console.SetCursorPosition(x , y - i);
+                        Console.Write("░░");   
+                    }
+                    break;
+                case ShipPosition.Orientation.Down:
+                    for (int i = 0; i < shipRank; i++)
+                    {  
+                        Console.SetCursorPosition(x , y + i);
+                        Console.Write("░░");
+                    }
+                    break;
+                case ShipPosition.Orientation.Left:
+                    for (int i = 0; i < shipRank; i++)
+                    {
+                        Console.SetCursorPosition((x ) - (i * 2), y );
+                        Console.Write("░░");
+                    }
+                    break;
+                case ShipPosition.Orientation.Right:
+                    for (int i = 0; i < shipRank; i++)
+                    {         
+                        Console.Write("░░");
+                    }
+                    break;
+            }
+            Console.ResetColor();      
+        }
+        
 
         public static void GenerateShipsManual(ref Cell[,] field)
         {

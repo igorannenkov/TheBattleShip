@@ -24,7 +24,7 @@ namespace TheBattleShip
         }
 
         public CellState cellState;
-        public CellPosition cellPosition;
+      //  public CellPosition cellPosition;
 
         public Cell()
         {

@@ -1,30 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static TheBattleShip.PlacementValidator;
-
-namespace TheBattleShip
+﻿namespace TheBattleShip
 {
     internal static class PlacementValidator
     {
-        public enum PlacementResult
+        public enum Result
         {
             Correct,
             Incorrect,
             OutOfRange
         }
 
-        public static PlacementResult FourDeckShipPlacementResult(Cell[,] field, int x, int y, ShipSpawner.SpawnDirection direction)
+        //взять листочек. написать ф-цию определения возможности установки корабля (поле, х, у, ранг, направление)
+
+
+
+        // public static Result FourDeckShipPlacementResult(Cell[,] field, int x, int y, ShipSpawner.Orientation direction)
+
+        public static Result FourDeckShipPlacementResult(Cell[,] field, ShipPosition shipPosition)
         {
-            if (field[x, y].cellState == Cell.CellState.Empty)
+
+            int x = shipPosition.X;
+            int y = shipPosition.Y;
+
+
+            try
             {
-                try
+                if (field[x, y].cellState == Cell.CellState.Empty)
                 {
-                    switch (direction)
+
+                    switch (shipPosition.orientation)
                     {
-                        case ShipSpawner.SpawnDirection.Down: // размещаем вертикально вниз
+                        case ShipPosition.Orientation.Down: // размещаем вертикально вниз
 
                             if (x == 0 && y > 4)
                             {
@@ -41,7 +46,7 @@ namespace TheBattleShip
                                     field[x, y - 1].cellState == Cell.CellState.Empty &&
                                     field[x + 1, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -63,7 +68,7 @@ namespace TheBattleShip
                                 field[x + 1, y + 3].cellState == Cell.CellState.Empty &&
                                 field[x + 1, y + 4].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct; 
+                                    return Result.Correct;
                                 }
                             }
 
@@ -82,7 +87,7 @@ namespace TheBattleShip
                                 field[x - 1, y + 3].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y + 4].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -99,7 +104,7 @@ namespace TheBattleShip
                                field[x + 1, y + 3].cellState == Cell.CellState.Empty &&
                                field[x + 1, y + 4].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -116,7 +121,7 @@ namespace TheBattleShip
                                field[x - 1, y + 3].cellState == Cell.CellState.Empty &&
                                field[x - 1, y + 4].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -139,11 +144,11 @@ namespace TheBattleShip
                                 field[x + 1, y + 3].cellState == Cell.CellState.Empty &&
                                 field[x + 1, y + 4].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
-                            return PlacementResult.Incorrect;
+                            return Result.Incorrect;
 
-                        case ShipSpawner.SpawnDirection.Up: // вертикально вверх
+                        case ShipPosition.Orientation.Up: // вертикально вверх
 
 
                             if (x == 0 && y > 4)
@@ -161,7 +166,7 @@ namespace TheBattleShip
                                     field[x, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 1, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -183,7 +188,7 @@ namespace TheBattleShip
                                 field[x - 1, y - 3].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y - 4].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -202,7 +207,7 @@ namespace TheBattleShip
                                 field[x - 1, y - 4].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -220,7 +225,7 @@ namespace TheBattleShip
                                field[x - 1, y - 3].cellState == Cell.CellState.Empty &&
                                field[x - 1, y - 4].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -237,7 +242,7 @@ namespace TheBattleShip
                                field[x + 1, y - 3].cellState == Cell.CellState.Empty &&
                                field[x + 1, y - 4].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
                             if (field[x, y].cellState == Cell.CellState.Empty &&
@@ -259,129 +264,335 @@ namespace TheBattleShip
                             field[x - 1, y - 4].cellState == Cell.CellState.Empty &&
                             field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
 
-                            return PlacementResult.Incorrect;
-                        case ShipSpawner.SpawnDirection.Right: //горизонтально вправо
-
-
-                            if (x == 0 && y > 4)
+                            return Result.Incorrect;
+                        case ShipPosition.Orientation.Right: //горизонтально вправо
+                            //1
+                            if (x == 0 && y == 0)
                             {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
-                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
-                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                if (field[x + 1, y].cellState == Cell.CellState.Empty &&
                                     field[x + 2, y].cellState == Cell.CellState.Empty &&
                                     field[x + 3, y].cellState == Cell.CellState.Empty &&
                                     field[x + 4, y].cellState == Cell.CellState.Empty &&
-                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
-                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
-                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
-                                    field[x + 4, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 4, y + 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
+                                { return Result.Correct; }
                             }
-
-                            if (x > 4 && y == 0)
-                            {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                                field[x, y + 1].cellState == Cell.CellState.Empty &&
-                                field[x + 1, y].cellState == Cell.CellState.Empty &&
-                                field[x + 2, y].cellState == Cell.CellState.Empty &&
-                                field[x + 3, y].cellState == Cell.CellState.Empty &&
-                                field[x + 4, y].cellState == Cell.CellState.Empty &&
-                                field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
-                                field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
-                                field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
-                                field[x + 4, y + 1].cellState == Cell.CellState.Empty &&
-                                field[x - 1, y].cellState == Cell.CellState.Empty &&
-                                field[x - 1, y + 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
-                            }
-
-                            if (x > 4 && y == Math.Sqrt(field.Length) - 1)
-                            {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                               field[x, y - 1].cellState == Cell.CellState.Empty &&
-                               field[x + 1, y].cellState == Cell.CellState.Empty &&
-                               field[x + 2, y].cellState == Cell.CellState.Empty &&
-                               field[x + 3, y].cellState == Cell.CellState.Empty &&
-                               field[x + 4, y].cellState == Cell.CellState.Empty &&
-                               field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
-                               field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
-                               field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
-                               field[x + 4, y - 1].cellState == Cell.CellState.Empty &&
-                               field[x - 1, y].cellState == Cell.CellState.Empty &&
-                               field[x - 1, y - 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
-                            }
-
+                            //1.1
                             if (x == 0 && y == 0)
                             {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                               field[x, y + 1].cellState == Cell.CellState.Empty &&
-                               field[x + 1, y].cellState == Cell.CellState.Empty &&
-                               field[x + 2, y].cellState == Cell.CellState.Empty &&
-                               field[x + 3, y].cellState == Cell.CellState.Empty &&
-                               field[x + 4, y].cellState == Cell.CellState.Empty &&
-                               field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
-                               field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
-                               field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
-                               field[x + 4, y + 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
+                                if (field[x + 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Incorrect; }
                             }
 
-                            if (x == 0 && y == Math.Sqrt(field.Length) - 1)
+
+                            //2
+                            if (x == 0 && y < 9)
                             {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                                field[x, y - 1].cellState == Cell.CellState.Empty &&
-                                field[x + 1, y].cellState == Cell.CellState.Empty &&
-                                field[x + 2, y].cellState == Cell.CellState.Empty &&
-                                field[x + 3, y].cellState == Cell.CellState.Empty &&
-                                field[x + 4, y].cellState == Cell.CellState.Empty &&
-                                field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
-                                field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
-                                field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
-                                field[x + 4, y - 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
+                                if (field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+
                             }
-                            if (field[x, y].cellState == Cell.CellState.Empty &&
-                            field[x, y + 1].cellState == Cell.CellState.Empty &&
-                            field[x, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x + 1, y].cellState == Cell.CellState.Empty &&
-                            field[x + 2, y].cellState == Cell.CellState.Empty &&
-                            field[x + 3, y].cellState == Cell.CellState.Empty &&
-                            field[x + 4, y].cellState == Cell.CellState.Empty &&
-                            field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x + 4, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
-                            field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
-                            field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
-                            field[x + 4, y + 1].cellState == Cell.CellState.Empty &&
-                            field[x - 1, y].cellState == Cell.CellState.Empty &&
-                            field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x - 1, y + 1].cellState == Cell.CellState.Empty)
+                            //2.1
+                            if (x == 0 && y < 9)
                             {
-                                return PlacementResult.Correct;
+                                if (field[x, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Undamaged)
+                                { return Result.Incorrect; }
+
                             }
-                            return PlacementResult.Incorrect;
-                        case ShipSpawner.SpawnDirection.Left: //горизонтально влево
+
+                            //3
+                            if (x == 0 && y == 9)
+                            {
+                                if (field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y - 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+
+                            }
+                            //3.1
+                            if (x == 0 && y == 9)
+                            {
+                                if (field[x + 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y - 1].cellState == Cell.CellState.Undamaged)
+                                { return Result.Incorrect; }
+
+                            }
+
+                            //4
+                            if (x > 0 && x < 6 && y == 0)
+                            {
+                                if (field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+
+                            //4.1
+                            if (x > 0 && x < 6 && y == 0)
+                            {
+                                if (field[x - 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Undamaged)
+                                { return Result.Incorrect; }
+                            }
+
+                            //5
+                            if (x == 6 && y == 0)
+                            {
+                                if (field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+
+                            //5.1
+                            if (x == 6 && y == 0)
+                            {
+                                if (field[x - 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Undamaged)
+                                { return Result.Incorrect; }
+                            }
+
+                            //6
+                            if (x == 6 && y > 0 && y < 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+                            //6.1
+                            if (x == 6 && y > 0 && y < 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x - 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Undamaged)
+                                { return Result.Incorrect; }
+                            }
+
+                            //7
+                            if (x == 6 && y == 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+                            //7.1
+                            if (x == 6 && y == 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x - 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y].cellState == Cell.CellState.Undamaged)
+                                { return Result.Incorrect; }
+                            }
+
+                            //8
+                            if (x > 0 && x < 6 && y == 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+                            //8.1
+                            if (x > 0 && x < 6 && y == 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x - 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y].cellState == Cell.CellState.Undamaged)
+                                { return Result.Incorrect; }
+                            }
+
+                            //9
+                            if (x > 0 && x < 6 && y > 0 && y < 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+
+                            //9.1
+                            if (x > 0 && x < 6 && y > 0 && y < 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y - 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x - 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 1, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y].cellState == Cell.CellState.Undamaged ||
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Undamaged ||
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Undamaged)
+                                { return Result.Incorrect; }
+                            }
+
+
+                            if (x > 6 || y > 9)
+                            {
+                                return Result.OutOfRange;
+                            }
+                   
+                            break;
+
+
+
+
+
+
+
+                        case ShipPosition.Orientation.Left: //горизонтально влево
 
                             if (x > 4 && y == 0)
                             {
@@ -398,7 +609,7 @@ namespace TheBattleShip
                                 field[x - 3, y + 1].cellState == Cell.CellState.Empty &&
                                 field[x - 4, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -417,7 +628,7 @@ namespace TheBattleShip
                                 field[x - 3, y - 1].cellState == Cell.CellState.Empty &&
                                 field[x - 4, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -439,7 +650,7 @@ namespace TheBattleShip
                                 field[x - 3, y + 1].cellState == Cell.CellState.Empty &&
                                 field[x - 4, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -456,7 +667,7 @@ namespace TheBattleShip
                                field[x - 3, y + 1].cellState == Cell.CellState.Empty &&
                                field[x - 4, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -473,7 +684,7 @@ namespace TheBattleShip
                                field[x - 3, y - 1].cellState == Cell.CellState.Empty &&
                                field[x - 4, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
                             if (field[x, y].cellState == Cell.CellState.Empty &&
@@ -495,29 +706,34 @@ namespace TheBattleShip
                             field[x - 3, y + 1].cellState == Cell.CellState.Empty &&
                             field[x - 4, y + 1].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
-                            return PlacementResult.Incorrect;
+                            return Result.Incorrect;
                     }
                 }
-                catch (IndexOutOfRangeException) { return PlacementResult.OutOfRange; }
-                return PlacementResult.Incorrect;
+                else
+                {
+                    return Result.Incorrect;
+                }
             }
-            else
-            {
-                return PlacementResult.Incorrect;
-            }
+            catch (IndexOutOfRangeException) { return Result.OutOfRange; }
+            return Result.Incorrect;
+
         }
 
-        public static PlacementResult ThreeDeckShipPlacementResult(Cell[,] field, int x, int y, ShipSpawner.SpawnDirection direction)
+        public static Result ThreeDeckShipPlacementResult(Cell[,] field, ShipPosition shipPosition)
         {
-            if (field[x, y].cellState == Cell.CellState.Empty)
+            int x = shipPosition.X;
+            int y = shipPosition.Y;
+            try
             {
-                try
+                if (field[x, y].cellState == Cell.CellState.Empty)
                 {
-                    switch (direction)
+
+
+                    switch (shipPosition.orientation)
                     {
-                        case ShipSpawner.SpawnDirection.Down: // размещаем вертикально вниз
+                        case ShipPosition.Orientation.Down: // размещаем вертикально вниз
 
                             if (x == 0 && y > 3)
                             {
@@ -532,7 +748,7 @@ namespace TheBattleShip
                                     field[x, y - 1].cellState == Cell.CellState.Empty &&
                                     field[x + 1, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -551,7 +767,7 @@ namespace TheBattleShip
                                 field[x + 1, y + 2].cellState == Cell.CellState.Empty &&
                                 field[x + 1, y + 3].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -568,7 +784,7 @@ namespace TheBattleShip
                                 field[x - 1, y + 2].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y + 3].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -583,7 +799,7 @@ namespace TheBattleShip
                                field[x + 1, y + 2].cellState == Cell.CellState.Empty &&
                                field[x + 1, y + 3].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -598,7 +814,7 @@ namespace TheBattleShip
                                field[x - 1, y + 2].cellState == Cell.CellState.Empty &&
                                field[x - 1, y + 3].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -618,11 +834,11 @@ namespace TheBattleShip
                                 field[x + 1, y + 2].cellState == Cell.CellState.Empty &&
                                 field[x + 1, y + 3].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
-                            return PlacementResult.Incorrect;
+                            return Result.Incorrect;
 
-                        case ShipSpawner.SpawnDirection.Up: // вертикально вверх
+                        case ShipPosition.Orientation.Up: // вертикально вверх
 
 
                             if (x == 0 && y > 3)
@@ -638,7 +854,7 @@ namespace TheBattleShip
                                     field[x, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 1, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -657,7 +873,7 @@ namespace TheBattleShip
                                 field[x - 1, y - 2].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y - 3].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -674,7 +890,7 @@ namespace TheBattleShip
                                 field[x - 1, y - 3].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -690,7 +906,7 @@ namespace TheBattleShip
                                field[x - 1, y - 2].cellState == Cell.CellState.Empty &&
                                field[x - 1, y - 3].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -705,8 +921,8 @@ namespace TheBattleShip
                                field[x + 1, y - 2].cellState == Cell.CellState.Empty &&
                                field[x + 1, y - 3].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
-                                    
+                                    return Result.Correct;
+
                                 }
                             }
                             if (field[x, y].cellState == Cell.CellState.Empty &&
@@ -725,115 +941,167 @@ namespace TheBattleShip
                             field[x - 1, y - 3].cellState == Cell.CellState.Empty &&
                             field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
 
-                            return PlacementResult.Incorrect;
-                        case ShipSpawner.SpawnDirection.Right: //горизонтально вправо
+                            return Result.Incorrect;
+                        case ShipPosition.Orientation.Right: //горизонтально вправо
 
-
-                            if (x == 0 && y > 3)
+                            //1
+                            if (x == 0 && y == 0)
                             {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
-                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
-                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                if (field[x + 1, y].cellState == Cell.CellState.Empty &&
                                     field[x + 2, y].cellState == Cell.CellState.Empty &&
                                     field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+                            //2
+                            if (x == 0 && y < 9)
+                            {
+                                if (field[x, y - 1].cellState == Cell.CellState.Empty &&
                                     field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
                                     field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
                                     field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+
+                            }
+                            //3
+                            if (x == 0 && y == 9)
+                            {
+                                if (field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y - 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+
+                            }
+                            //4
+                            if (x > 0 && x < 6 && y == 0)
+                            {
+                                if (field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+                            //5
+                            if (x == 6 && y == 0)
+                            {
+                                if (field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 3, y + 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
+                                { return Result.Correct; }
+                            }
+                            //6
+                            if (x == 6 && y > 0 && y < 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+                            //7
+                            if (x == 6 && y == 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                     field[x + 4, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+                            //8
+                            if (x > 0 && x < 6 && y == 9)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
+                            }
+                            //9
+                            if (x > 9 && x < 6 && y > 0 && y < 6)
+                            {
+                                if (field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y - 1].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 1, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y].cellState == Cell.CellState.Empty &&
+                                    field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
+                                    field[x + 4, y + 1].cellState == Cell.CellState.Empty)
+                                { return Result.Correct; }
                             }
 
-                            if (x > 3 && y == 0)
-                            {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                                field[x, y + 1].cellState == Cell.CellState.Empty &&
-                                field[x + 1, y].cellState == Cell.CellState.Empty &&
-                                field[x + 2, y].cellState == Cell.CellState.Empty &&
-                                field[x + 3, y].cellState == Cell.CellState.Empty &&
-                                field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
-                                field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
-                                field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
-                                field[x - 1, y].cellState == Cell.CellState.Empty &&
-                                field[x - 1, y + 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
-                            }
+                            break;
 
-                            if (x > 3 && y == Math.Sqrt(field.Length) - 1)
-                            {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                               field[x, y - 1].cellState == Cell.CellState.Empty &&
-                               field[x + 1, y].cellState == Cell.CellState.Empty &&
-                               field[x + 2, y].cellState == Cell.CellState.Empty &&
-                               field[x + 3, y].cellState == Cell.CellState.Empty &&
-                               field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
-                               field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
-                               field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
-                               field[x - 1, y].cellState == Cell.CellState.Empty &&
-                               field[x - 1, y - 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
-                            }
 
-                            if (x == 0 && y == 0)
-                            {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                               field[x, y + 1].cellState == Cell.CellState.Empty &&
-                               field[x + 1, y].cellState == Cell.CellState.Empty &&
-                               field[x + 2, y].cellState == Cell.CellState.Empty &&
-                               field[x + 3, y].cellState == Cell.CellState.Empty &&
-                               field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
-                               field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
-                               field[x + 3, y + 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
-                            }
-
-                            if (x == 0 && y == Math.Sqrt(field.Length) - 1)
-                            {
-                                if (field[x, y].cellState == Cell.CellState.Empty &&
-                                field[x, y - 1].cellState == Cell.CellState.Empty &&
-                                field[x + 1, y].cellState == Cell.CellState.Empty &&
-                                field[x + 2, y].cellState == Cell.CellState.Empty &&
-                                field[x + 3, y].cellState == Cell.CellState.Empty &&
-                                field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
-                                field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
-                                field[x + 3, y - 1].cellState == Cell.CellState.Empty)
-                                {
-                                    return PlacementResult.Correct;
-                                }
-                            }
-                            if (field[x, y].cellState == Cell.CellState.Empty &&
-                            field[x, y + 1].cellState == Cell.CellState.Empty &&
-                            field[x, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x + 1, y].cellState == Cell.CellState.Empty &&
-                            field[x + 2, y].cellState == Cell.CellState.Empty &&
-                            field[x + 3, y].cellState == Cell.CellState.Empty &&
-                            field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x + 2, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x + 3, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
-                            field[x + 2, y + 1].cellState == Cell.CellState.Empty &&
-                            field[x + 3, y + 1].cellState == Cell.CellState.Empty &&
-                            field[x - 1, y].cellState == Cell.CellState.Empty &&
-                            field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
-                            field[x - 1, y + 1].cellState == Cell.CellState.Empty)
-                            {
-                                return PlacementResult.Correct;
-                            }
-                            return PlacementResult.Incorrect;
-                        case ShipSpawner.SpawnDirection.Left: //горизонтально влево
+                        case ShipPosition.Orientation.Left: //горизонтально влево
 
                             if (x > 3 && y == 0)
                             {
@@ -848,7 +1116,7 @@ namespace TheBattleShip
                                 field[x - 2, y + 1].cellState == Cell.CellState.Empty &&
                                 field[x - 3, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -865,7 +1133,7 @@ namespace TheBattleShip
                                 field[x - 2, y - 1].cellState == Cell.CellState.Empty &&
                                 field[x - 3, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -884,7 +1152,7 @@ namespace TheBattleShip
                                 field[x - 2, y + 1].cellState == Cell.CellState.Empty &&
                                 field[x - 3, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -899,7 +1167,7 @@ namespace TheBattleShip
                                field[x - 2, y + 1].cellState == Cell.CellState.Empty &&
                                field[x - 3, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -914,7 +1182,7 @@ namespace TheBattleShip
                                field[x - 2, y - 1].cellState == Cell.CellState.Empty &&
                                field[x - 3, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
                             if (field[x, y].cellState == Cell.CellState.Empty &&
@@ -933,29 +1201,37 @@ namespace TheBattleShip
                             field[x - 2, y + 1].cellState == Cell.CellState.Empty &&
                             field[x - 3, y + 1].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
-                            return PlacementResult.Incorrect;
+                            return Result.Incorrect;
+
+
                     }
                 }
-                catch (IndexOutOfRangeException) { return PlacementResult.OutOfRange; }
-                return PlacementResult.Incorrect;
+                else
+                {
+                    return Result.Incorrect;
+                }
+
             }
-            else
-            {
-                return PlacementResult.Incorrect;
-            }
+            catch (IndexOutOfRangeException) { return Result.OutOfRange; }
+            return Result.Incorrect;
+
         }
 
-        public static PlacementResult TwoDeckShipPlacementIsValid(Cell[,] field, int x, int y, ShipSpawner.SpawnDirection direction)
+        public static Result TwoDeckShipPlacementIsValid(Cell[,] field, ShipPosition shipPosition)
         {
-            if (field[x, y].cellState == Cell.CellState.Empty)
+            int x = shipPosition.X;
+            int y = shipPosition.Y;
+
+            try
             {
-                try
+                if (field[x, y].cellState == Cell.CellState.Empty)
                 {
-                    switch (direction)
+
+                    switch (shipPosition.orientation)
                     {
-                        case ShipSpawner.SpawnDirection.Down: // размещаем вертикально вниз
+                        case ShipPosition.Orientation.Down: // размещаем вертикально вниз
 
                             if (x == 0 && y > 2)
                             {
@@ -968,7 +1244,7 @@ namespace TheBattleShip
                                     field[x, y - 1].cellState == Cell.CellState.Empty &&
                                     field[x + 1, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -984,7 +1260,7 @@ namespace TheBattleShip
                                 field[x - 1, y + 2].cellState == Cell.CellState.Empty &&
                                 field[x + 1, y + 2].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -999,7 +1275,7 @@ namespace TheBattleShip
                                 field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y + 2].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1012,7 +1288,7 @@ namespace TheBattleShip
                                field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
                                field[x + 1, y + 2].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1025,7 +1301,7 @@ namespace TheBattleShip
                                field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
                                field[x - 1, y + 2].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1042,11 +1318,11 @@ namespace TheBattleShip
                                 field[x - 1, y + 2].cellState == Cell.CellState.Empty &&
                                 field[x + 1, y + 2].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
-                            return PlacementResult.Incorrect;
+                            return Result.Incorrect;
 
-                        case ShipSpawner.SpawnDirection.Up: // вертикально вверх
+                        case ShipPosition.Orientation.Up: // вертикально вверх
 
 
                             if (x == 0 && y > 2)
@@ -1060,7 +1336,7 @@ namespace TheBattleShip
                                     field[x, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 1, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1076,7 +1352,7 @@ namespace TheBattleShip
                                 field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y - 2].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1091,7 +1367,7 @@ namespace TheBattleShip
                                 field[x - 1, y - 2].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1105,7 +1381,7 @@ namespace TheBattleShip
                                field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                                field[x - 1, y - 2].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1118,7 +1394,7 @@ namespace TheBattleShip
                                field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
                                field[x + 1, y - 2].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
                             if (field[x, y].cellState == Cell.CellState.Empty &&
@@ -1134,11 +1410,11 @@ namespace TheBattleShip
                             field[x - 1, y - 2].cellState == Cell.CellState.Empty &&
                             field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
 
-                            return PlacementResult.Incorrect;
-                        case ShipSpawner.SpawnDirection.Right: //горизонтально вправо
+                            return Result.Incorrect;
+                        case ShipPosition.Orientation.Right: //горизонтально вправо
 
 
                             if (x == 0 && y > 2)
@@ -1153,7 +1429,7 @@ namespace TheBattleShip
                                     field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
                                     field[x + 2, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1168,7 +1444,7 @@ namespace TheBattleShip
                                 field[x - 1, y].cellState == Cell.CellState.Empty &&
                                 field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1183,7 +1459,7 @@ namespace TheBattleShip
                                field[x - 1, y].cellState == Cell.CellState.Empty &&
                                field[x - 1, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1196,7 +1472,7 @@ namespace TheBattleShip
                                field[x + 1, y + 1].cellState == Cell.CellState.Empty &&
                                field[x + 2, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1209,7 +1485,7 @@ namespace TheBattleShip
                                 field[x + 1, y - 1].cellState == Cell.CellState.Empty &&
                                 field[x + 2, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
                             if (field[x, y].cellState == Cell.CellState.Empty &&
@@ -1225,10 +1501,10 @@ namespace TheBattleShip
                             field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                             field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
-                            return PlacementResult.Incorrect;
-                        case ShipSpawner.SpawnDirection.Left: //горизонтально влево
+                            return Result.Incorrect;
+                        case ShipPosition.Orientation.Left: //горизонтально влево
 
                             if (x > 2 && y == 0)
                             {
@@ -1241,7 +1517,7 @@ namespace TheBattleShip
                                 field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
                                 field[x - 2, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1256,7 +1532,7 @@ namespace TheBattleShip
                                 field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                                 field[x - 2, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1272,7 +1548,7 @@ namespace TheBattleShip
                                 field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
                                 field[x - 2, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1286,7 +1562,7 @@ namespace TheBattleShip
                                field[x - 2, y + 1].cellState == Cell.CellState.Empty &&
                                field[x - 2, y + 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
 
@@ -1299,7 +1575,7 @@ namespace TheBattleShip
                                field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                                field[x - 2, y - 1].cellState == Cell.CellState.Empty)
                                 {
-                                    return PlacementResult.Correct;
+                                    return Result.Correct;
                                 }
                             }
                             if (field[x, y].cellState == Cell.CellState.Empty &&
@@ -1315,25 +1591,27 @@ namespace TheBattleShip
                             field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
                             field[x - 2, y + 1].cellState == Cell.CellState.Empty)
                             {
-                                return PlacementResult.Correct;
+                                return Result.Correct;
                             }
-                            return PlacementResult.Incorrect;
+                            return Result.Incorrect;
                     }
                 }
-                catch (IndexOutOfRangeException) { return PlacementResult.OutOfRange; }
-                return PlacementResult.Incorrect;
-            }
-            else
-            {
-                return PlacementResult.Incorrect;
-            }
-        }
-        public static PlacementResult OneDeckShipPlacementIsValid(Cell[,] field, int x, int y)
-        {
-            if (field[x, y].cellState == Cell.CellState.Empty)
-            {
-                try
+                else
                 {
+                    return Result.Incorrect;
+                }
+            }
+            catch (IndexOutOfRangeException) { return Result.OutOfRange; }
+            return Result.Incorrect;
+
+        }
+        public static Result OneDeckShipPlacementIsValid(Cell[,] field, int x, int y)
+        {
+            try
+            {
+                if (field[x, y].cellState == Cell.CellState.Empty)
+                {
+
                     if (x == 0 && y > 1)
                     {
                         if (field[x, y].cellState == Cell.CellState.Empty &&
@@ -1343,7 +1621,7 @@ namespace TheBattleShip
                             field[x, y - 1].cellState == Cell.CellState.Empty &&
                             field[x + 1, y - 1].cellState == Cell.CellState.Empty)
                         {
-                            return PlacementResult.Correct;
+                            return Result.Correct;
                         }
                     }
 
@@ -1356,7 +1634,7 @@ namespace TheBattleShip
                         field[x - 1, y].cellState == Cell.CellState.Empty &&
                         field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                         {
-                            return PlacementResult.Correct;
+                            return Result.Correct;
                         }
                     }
 
@@ -1369,7 +1647,7 @@ namespace TheBattleShip
                         field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                         field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                         {
-                            return PlacementResult.Correct;
+                            return Result.Correct;
                         }
                     }
 
@@ -1380,7 +1658,7 @@ namespace TheBattleShip
                         field[x + 1, y].cellState == Cell.CellState.Empty &&
                         field[x + 1, y + 1].cellState == Cell.CellState.Empty)
                         {
-                            return PlacementResult.Correct;
+                            return Result.Correct;
                         }
                     }
 
@@ -1391,7 +1669,7 @@ namespace TheBattleShip
                         field[x - 1, y].cellState == Cell.CellState.Empty &&
                         field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                         {
-                            return PlacementResult.Correct;
+                            return Result.Correct;
                         }
                     }
 
@@ -1405,17 +1683,18 @@ namespace TheBattleShip
                         field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                         field[x - 1, y + 1].cellState == Cell.CellState.Empty)
                     {
-                        return PlacementResult.Correct;
+                        return Result.Correct;
                     }
-                    return PlacementResult.Incorrect;
+                    // return Result.Incorrect;
                 }
-                catch (IndexOutOfRangeException) { return PlacementResult.OutOfRange; }
-                return PlacementResult.Incorrect;
+                else
+                {
+                    return Result.Incorrect;
+                }
             }
-            else
-            {
-                return PlacementResult.Incorrect;
-            }
+            catch (IndexOutOfRangeException) { return Result.OutOfRange; }
+            return Result.Incorrect;
+
         }
 
     }

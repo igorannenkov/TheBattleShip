@@ -3,37 +3,36 @@ namespace TheBattleShip
 {
     internal class ShipSpawner
     {
-        public enum SpawnDirection
-        {
-            Up,
-            Down,
-            Left,
-            Right
-        }
 
-        public static void SpawnFourDeckedShip(ref Cell[,] field, int x, int y, SpawnDirection direction)
+        public static void SpawnFourDeckedShip(ref Cell[,] field, ShipPosition shipPosition)
+        //public static void SpawnFourDeckedShip(ref Cell[,] field, int x, int y, Orientation rotation)
         {
-            switch (direction)
+
+            int x = shipPosition.X;
+            int y = shipPosition.Y;
+
+
+            switch (shipPosition.orientation)
             {
-                case SpawnDirection.Down:
+                case ShipPosition.Orientation.Down:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x, y + 1].cellState = Cell.CellState.Undamaged;
                     field[x, y + 2].cellState = Cell.CellState.Undamaged;
                     field[x, y + 3].cellState = Cell.CellState.Undamaged;
                     break;
-                case SpawnDirection.Up:
+                case ShipPosition.Orientation.Up:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x, y - 1].cellState = Cell.CellState.Undamaged;
                     field[x, y - 2].cellState = Cell.CellState.Undamaged;
                     field[x, y - 3].cellState = Cell.CellState.Undamaged;
                     break;
-                case SpawnDirection.Right:
+                case ShipPosition.Orientation.Right:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x + 1, y].cellState = Cell.CellState.Undamaged;
                     field[x + 2, y].cellState = Cell.CellState.Undamaged;
                     field[x + 3, y].cellState = Cell.CellState.Undamaged;
                     break;
-                case SpawnDirection.Left:
+                case ShipPosition.Orientation.Left:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x - 1, y].cellState = Cell.CellState.Undamaged;
                     field[x - 2, y].cellState = Cell.CellState.Undamaged;
@@ -42,26 +41,29 @@ namespace TheBattleShip
             }
         }
 
-        public static void SpawnThreeDeckedShip(ref Cell[,] field, int x, int y, SpawnDirection direction)
+        public static void SpawnThreeDeckedShip(ref Cell[,] field, ShipPosition shipPosition)
         {
-            switch (direction)
+            int x = shipPosition.X;
+            int y = shipPosition.Y;
+
+            switch (shipPosition.orientation)
             {
-                case SpawnDirection.Down:
+                case ShipPosition.Orientation.Down:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x, y + 1].cellState = Cell.CellState.Undamaged;
                     field[x, y + 2].cellState = Cell.CellState.Undamaged;
                     break;
-                case SpawnDirection.Up:
+                case ShipPosition.Orientation.Up:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x, y - 1].cellState = Cell.CellState.Undamaged;
                     field[x, y - 2].cellState = Cell.CellState.Undamaged;
                     break;
-                case SpawnDirection.Right:
+                case ShipPosition.Orientation.Right:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x + 1, y].cellState = Cell.CellState.Undamaged;
                     field[x + 2, y].cellState = Cell.CellState.Undamaged;
                     break;
-                case SpawnDirection.Left:
+                case ShipPosition.Orientation.Left:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x - 1, y].cellState = Cell.CellState.Undamaged;
                     field[x - 2, y].cellState = Cell.CellState.Undamaged;
@@ -69,31 +71,37 @@ namespace TheBattleShip
             }
         }
 
-        public static void SpawnTwoDeckedShip(ref Cell[,] field, int x, int y, SpawnDirection direction)
+        public static void SpawnTwoDeckedShip(ref Cell[,] field, ShipPosition shipPosition)
         {
-            switch (direction)
+            int x = shipPosition.X;
+            int y = shipPosition.Y;
+
+            switch (shipPosition.orientation)
             {
-                case SpawnDirection.Down:
+                case ShipPosition.Orientation.Down:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x, y + 1].cellState = Cell.CellState.Undamaged;
                     break;
-                case SpawnDirection.Up:
+                case ShipPosition.Orientation.Up:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x, y - 1].cellState = Cell.CellState.Undamaged;
                     break;
-                case SpawnDirection.Right:
+                case ShipPosition.Orientation.Right:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x + 1, y].cellState = Cell.CellState.Undamaged;
                     break;
-                case SpawnDirection.Left:
+                case ShipPosition.Orientation.Left:
                     field[x, y].cellState = Cell.CellState.Undamaged;
                     field[x - 1, y].cellState = Cell.CellState.Undamaged;
                     break;
             }
         }
 
-        public static void SpawnOneDeckedShip(ref Cell[,] field, int x, int y)
+        public static void SpawnOneDeckedShip(ref Cell[,] field, ShipPosition shipPosition)
         {
+            int x = shipPosition.X;
+            int y = shipPosition.Y;
+
             field[x, y].cellState = Cell.CellState.Undamaged;
         }
     }
