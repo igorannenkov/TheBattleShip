@@ -3,14 +3,10 @@ namespace TheBattleShip
 {
     internal class ShipSpawner
     {
-
         public static void SpawnFourDeckedShip(ref Cell[,] field, ShipInfo shipPosition)
-        //public static void SpawnFourDeckedShip(ref Cell[,] field, int x, int y, Orientation rotation)
         {
-
             int x = shipPosition.PositionX;
             int y = shipPosition.PositionY;
-
 
             switch (shipPosition.orientation)
             {

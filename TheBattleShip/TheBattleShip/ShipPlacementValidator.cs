@@ -568,7 +568,7 @@
                                     if (x > 0 && x < 9 && y > 0 && y < 6)
                                     {
                                         if (field[x, y].cellState == Cell.CellState.Empty &&
-                                            field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                            field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y + 2].cellState == Cell.CellState.Empty &&
@@ -1100,7 +1100,7 @@
                                     if (x > 0 && x < 9 && y > 0 && y < 7)
                                     {
                                         if (field[x, y].cellState == Cell.CellState.Empty &&
-                                            field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                            field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y + 2].cellState == Cell.CellState.Empty &&
@@ -1548,7 +1548,7 @@
                                     if (x > 0 && x < 9 && y > 0 && y < 8)
                                     {
                                         if (field[x, y].cellState == Cell.CellState.Empty &&
-                                            field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                            field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y + 2].cellState == Cell.CellState.Empty &&
@@ -1562,7 +1562,7 @@
                                         { return Result.Correct; }
 
                                         if (field[x, y].cellState == Cell.CellState.Undamaged ||
-                                           field[x - 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                           field[x - 1, y - 1].cellState == Cell.CellState.Undamaged ||
                                            field[x - 1, y].cellState == Cell.CellState.Undamaged ||
                                            field[x - 1, y + 1].cellState == Cell.CellState.Undamaged ||
                                            field[x - 1, y + 2].cellState == Cell.CellState.Undamaged ||
@@ -1914,7 +1914,7 @@
                                     if (x > 0 && x < 9 && y > 0 && y < 9)
                                     {
                                         if (field[x, y].cellState == Cell.CellState.Empty &&
-                                            field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
+                                            field[x - 1, y - 1].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y].cellState == Cell.CellState.Empty &&
                                             field[x - 1, y + 1].cellState == Cell.CellState.Empty &&
                                             field[x, y - 1].cellState == Cell.CellState.Empty &&
@@ -1925,7 +1925,7 @@
                                         { return Result.Correct; }
 
                                         if (field[x, y].cellState == Cell.CellState.Undamaged ||
-                                           field[x - 1, y + 1].cellState == Cell.CellState.Undamaged ||
+                                           field[x - 1, y - 1].cellState == Cell.CellState.Undamaged ||
                                            field[x - 1, y].cellState == Cell.CellState.Undamaged ||
                                            field[x - 1, y + 1].cellState == Cell.CellState.Undamaged ||
                                            field[x, y - 1].cellState == Cell.CellState.Undamaged ||

@@ -106,12 +106,13 @@ namespace TheBattleShip
             }
         }
 
-
         public static void DrawField(Cell[,] field)
         {
+
             int width = (int)Math.Sqrt(field.Length);
             int height = (int)Math.Sqrt(field.Length);
-            
+
+            Console.SetCursorPosition(0, 0);
 
             for (int p = 0; p < height; p++)
             {
@@ -148,110 +149,136 @@ namespace TheBattleShip
                             Console.ResetColor();
                             break;
                     }
-
                 }
                 Console.WriteLine();
+            }  
+        }
+   
+        public static void SetEnemyShips(ref Cell[,] field)
+        {
+            Random rnd = new Random();
+            ShipInfo randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.FourDeck);
+            //4
+            while (true)
+            {
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
+                {
+                    ShipSpawner.SpawnFourDeckedShip(ref field, randomShip);
+                    break;
+                }
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.FourDeck);
             }
-               
-        }
-    /*
-        static void GenerateFourDeckedShips(ref Cell[,] field)
-        {
-            int ships = 1;
-            Random random = new Random();
-            do
+            //3
+            randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.ThreeDeck);
+            while (true)
             {
-                int x = random.Next(10);
-                int y = random.Next(10);
-                ShipSpawner.Orientation direction = (ShipSpawner.Orientation)random.Next(1, 5);
-                if (PlacementValidator.FourDeckShipPlacementResult(field, x, y, direction) == PlacementValidator.Result.Correct)
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
                 {
-                    ShipSpawner.SpawnFourDeckedShip(ref field, x, y, direction);
-                    ships--;
+                    ShipSpawner.SpawnThreeDeckedShip(ref field, randomShip);
+                    break;
                 }
-
-            } while (ships > 0);
-        }
-
-        static void GenerateThreeDeckedShips(ref Cell[,] field)
-        {
-            int ships = 2;
-            Random random = new Random();
-            do
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.ThreeDeck);
+            }
+            //3
+            randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.ThreeDeck);
+            while (true)
             {
-                int x = random.Next(10);
-                int y = random.Next(10);
-                ShipSpawner.Orientation direction = (ShipSpawner.Orientation)random.Next(1, 5);
-                if (PlacementValidator.ThreeDeckShipPlacementResult(field, x, y, direction) == PlacementValidator.Result.Correct)
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
                 {
-                    ShipSpawner.SpawnThreeDeckedShip(ref field, x, y, direction);
-                    ships--;
+                    ShipSpawner.SpawnThreeDeckedShip(ref field, randomShip);
+                    break;
                 }
-
-            } while (ships > 0);
-        }
-
-        static void GenerateTwoDeckedShips(ref Cell[,] field)
-        {
-            int ships = 3;
-            Random random = new Random();
-            do
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.ThreeDeck);
+            }
+            //2
+            randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.TwoDeck);
+            while (true)
             {
-                int x = random.Next(10);
-                int y = random.Next(10);
-                ShipSpawner.Orientation direction = (ShipSpawner.Orientation)random.Next(1, 5);
-                if (PlacementValidator.TwoDeckShipPlacementIsValid(field, x, y, direction) == PlacementValidator.Result.Correct)
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
                 {
-                    ShipSpawner.SpawnTwoDeckedShip(ref field, x, y, direction);
-                    ships--;
+                    ShipSpawner.SpawnTwoDeckedShip(ref field, randomShip);
+                    break;
                 }
-
-            } while (ships > 0);
-        }
-
-        static void GenerateOneDeckedShips(ref Cell[,] field)
-        {
-            int ships = 4;
-            Random random = new Random();
-            do
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.TwoDeck);
+            }
+            //2
+            randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.TwoDeck);
+            while (true)
             {
-                int x = random.Next(10);
-                int y = random.Next(10);
-                ShipSpawner.Orientation direction = (ShipSpawner.Orientation)random.Next(1, 5);
-                if (PlacementValidator.OneDeckShipPlacementIsValid(field, x, y) == PlacementValidator.Result.Correct)
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
                 {
-                    ShipSpawner.SpawnOneDeckedShip(ref field, x, y);
-                    ships--;
+                    ShipSpawner.SpawnTwoDeckedShip(ref field, randomShip);
+                    break;
                 }
-
-            } while (ships > 0);
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.TwoDeck);
+            }
+            //2
+            randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.TwoDeck);
+            while (true)
+            {
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
+                {
+                    ShipSpawner.SpawnTwoDeckedShip(ref field, randomShip);
+                    break;
+                }
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.TwoDeck);
+            }
+            //1
+            randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.OneDeck);
+            while (true)
+            {
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
+                {
+                    ShipSpawner.SpawnOneDeckedShip(ref field, randomShip);
+                    break;
+                }
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.OneDeck);
+            }
+            //1
+            randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.OneDeck);
+            while (true)
+            {
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
+                {
+                    ShipSpawner.SpawnOneDeckedShip(ref field, randomShip);
+                    break;
+                }
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.OneDeck);
+            }
+            //1
+            randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.OneDeck);
+            while (true)
+            {
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
+                {
+                    ShipSpawner.SpawnOneDeckedShip(ref field, randomShip);
+                    break;
+                }
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.OneDeck);
+            }
+            //1
+            randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.OneDeck);
+            while (true)
+            {
+                if (ShipPlacementValidator.Validate(field, randomShip) == ShipPlacementValidator.Result.Correct)
+                {
+                    ShipSpawner.SpawnOneDeckedShip(ref field, randomShip);
+                    break;
+                }
+                randomShip = new ShipInfo(rnd.Next(10), rnd.Next(10), (ShipInfo.Orientation)rnd.Next(1, 3), ShipInfo.ShipRank.OneDeck);
+            }
         }
-        */
-    /*
-        public static void GenerateShips(ref Cell[,] myField, ref Cell[,] enemyField)
+    
+        public static void DrawShip(ShipInfo shipInfo, ShipPlacementValidator.Result placementResult)
         {
-            GenerateFourDeckedShips(ref myField);
-            Thread.Sleep(2);
-            GenerateThreeDeckedShips(ref myField); Thread.Sleep(2);
-            GenerateTwoDeckedShips(ref myField); Thread.Sleep(2);
-            GenerateOneDeckedShips(ref myField); Thread.Sleep(2);
-            GenerateFourDeckedShips(ref enemyField); Thread.Sleep(2);
-            GenerateThreeDeckedShips(ref enemyField); Thread.Sleep(2);
-            GenerateTwoDeckedShips(ref enemyField); Thread.Sleep(2);
-            GenerateOneDeckedShips(ref enemyField);
-        }
-    */
-
-        public static void DrawShip(ShipInfo.ShipRank rank, ShipInfo shipPosition, ShipPlacementValidator.Result placementResult)
-        {
-            int shipRank = (int)rank;
+            int shipRank = (int)shipInfo.shipRank;
             if (placementResult == ShipPlacementValidator.Result.OutOfRange)
             {
                 return;
             }
 
-            int x = (shipPosition.PositionX * 2) + 1;
-            int y = shipPosition.PositionY + 1;
+            int x = (shipInfo.PositionX * 2) + 1;
+            int y = shipInfo.PositionY + 1;
             Console.SetCursorPosition(x, y);
 
             switch (placementResult)
@@ -268,9 +295,7 @@ namespace TheBattleShip
                     break;
             }
 
-
-            // Console.SetCursorPosition(x * 2, y * 2);
-            switch (shipPosition.orientation)
+            switch (shipInfo.orientation)
             {
 
                 case ShipInfo.Orientation.Vertical:
@@ -291,17 +316,99 @@ namespace TheBattleShip
             Console.ResetColor();
             Console.Write("\b");
         }
-        
 
-        public static void GenerateShipsManual(ref Cell[,] field)
+        public static void SetPlayerShip(ref Cell[,] field, ShipInfo shipInfo)
         {
-            // 3-pal
-            int shipcount = 2;
-            do
-            {
+            ShipInfo.Orientation currentOrientation = shipInfo.orientation;
+            ShipPlacementValidator.Result placementResult = ShipPlacementValidator.Validate(field, shipInfo);
+            DrawShip(shipInfo, placementResult);
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
 
+            while (true)
+            {
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.Enter:
+                        if (ShipPlacementValidator.Validate(field, shipInfo) == ShipPlacementValidator.Result.Correct)
+                        {
+                            int x = shipInfo.PositionX;
+                            int y = shipInfo.PositionY;
+
+                            if(shipInfo.orientation == ShipInfo.Orientation.Horizontal)
+                            {
+                                for (int i = 0; i < (int)shipInfo.shipRank; i++)
+                                {
+                                    field[x + i, y].cellState = Cell.CellState.Undamaged;
+                                }
+                                DrawField(field);
+                                return;
+                            }
+                            if (shipInfo.orientation == ShipInfo.Orientation.Vertical)
+                            {
+                                for (int i = 0; i < (int)shipInfo.shipRank; i++)
+                                {
+                                    field[x, y + i].cellState = Cell.CellState.Undamaged;
+                                }
+                                DrawField(field);
+                                return;
+                            }
+                        }
+                        break;
+
+                    case ConsoleKey.R:
+                        if (shipInfo.orientation == ShipInfo.Orientation.Horizontal)
+                        {
+                            if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX, shipInfo.PositionY, ShipInfo.Orientation.Vertical, shipInfo.shipRank)) != ShipPlacementValidator.Result.OutOfRange)
+                            {
+                                shipInfo.orientation = ShipInfo.Orientation.Vertical;
+                                currentOrientation = shipInfo.orientation;
+                            }
+                            break;
+                        }
+                        if (shipInfo.orientation == ShipInfo.Orientation.Vertical)
+                        {
+                            if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX, shipInfo.PositionY, ShipInfo.Orientation.Horizontal, shipInfo.shipRank)) != ShipPlacementValidator.Result.OutOfRange)
+                            {
+                                shipInfo.orientation = ShipInfo.Orientation.Horizontal;
+                                currentOrientation = shipInfo.orientation;
+                            }
+                            break;
+                        }
+                        break;
+
+                    case ConsoleKey.RightArrow:
+                        if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX + 1, shipInfo.PositionY, currentOrientation, shipInfo.shipRank)) != ShipPlacementValidator.Result.OutOfRange)
+                            shipInfo.PositionX += 1;
+                        break;
+
+                    case ConsoleKey.LeftArrow:
+                        if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX - 1, shipInfo.PositionY, currentOrientation, shipInfo.shipRank)) != ShipPlacementValidator.Result.OutOfRange)
+                            shipInfo.PositionX -= 1;
+                        break;
+
+                    case ConsoleKey.UpArrow:
+                        if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX, shipInfo.PositionY - 1, currentOrientation, shipInfo.shipRank)) != ShipPlacementValidator.Result.OutOfRange)
+                            shipInfo.PositionY -= 1;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX, shipInfo.PositionY + 1, currentOrientation, shipInfo.shipRank)) != ShipPlacementValidator.Result.OutOfRange)
+                            shipInfo.PositionY += 1;
+                        break;
+                }
+
+                placementResult = ShipPlacementValidator.Validate(field, shipInfo);
+
+                if (placementResult != ShipPlacementValidator.Result.OutOfRange)
+                {
+                    Game.DrawField(field);
+                    Game.DrawShip(shipInfo, placementResult);
+                }
+
+                Console.Title = "X: " + shipInfo.PositionX + "  |  Y: " + shipInfo.PositionY + "  |  Orientation: " + currentOrientation + "  |  State: " + placementResult;
+                keyInfo = Console.ReadKey();
             }
-            while (shipcount > 0);
         }
+
     }
 }

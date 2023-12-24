@@ -10,7 +10,7 @@ namespace TheBattleShip
     {
         public enum Orientation
         {
-            Horizontal,
+            Horizontal = 1,
             Vertical
         }
 
