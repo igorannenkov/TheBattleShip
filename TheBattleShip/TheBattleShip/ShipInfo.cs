@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheBattleShip
 {
-    internal class ShipPosition
+    internal class ShipInfo
     {
         public enum Orientation
         {
@@ -14,11 +14,20 @@ namespace TheBattleShip
             Vertical
         }
 
+        public enum ShipRank
+        {
+            OneDeck = 1,
+            TwoDeck,
+            ThreeDeck,
+            FourDeck
+        }
+
         public Orientation orientation;
+        public ShipRank shipRank;
         private int x;
         private int y;
 
-        public int X
+        public int PositionX
         {
             get { return x; }
             set
@@ -32,7 +41,7 @@ namespace TheBattleShip
             }
         }
 
-        public int Y
+        public int PositionY
         {
             get { return y; }
             set
@@ -46,18 +55,20 @@ namespace TheBattleShip
             }
         }
 
-        public ShipPosition()
+        public ShipInfo()
         {
-            this.X = 0;
-            this.Y = 0;
+            this.PositionX = 0;
+            this.PositionY = 0;
             this.orientation = Orientation.Horizontal;
+            this.shipRank = ShipRank.OneDeck;
         }
 
-        public ShipPosition(int x, int y, Orientation orientation)
+        public ShipInfo(int x, int y, Orientation orientation, ShipRank shipRank)
         {
-            this.X = x;
-            this.Y = y;
+            this.PositionX = x;
+            this.PositionY = y;
             this.orientation = orientation;
+            this.shipRank = shipRank;
         }
     }
 }

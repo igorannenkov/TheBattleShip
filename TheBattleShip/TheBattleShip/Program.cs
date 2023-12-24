@@ -22,85 +22,73 @@ namespace TheBattleShip
             field[8, 0] = new Cell(Cell.CellState.Undamaged);
             field[0, 9] = new Cell(Cell.CellState.Undamaged);
 
-            ShipPosition.Orientation currentOrientation = ShipPosition.Orientation.Vertical;
+            ShipInfo.Orientation currentOrientation = ShipInfo.Orientation.Vertical;
+            ShipInfo.ShipRank rank = ShipInfo.ShipRank.FourDeck;
+            ShipInfo shipInfo = new ShipInfo(posX, posY, ShipInfo.Orientation.Vertical, rank);
 
-           
-
-            ShipPosition shipPos = new ShipPosition(posX, posY, ShipPosition.Orientation.Vertical);
-            PlacementValidator.Result placementResult = PlacementValidator.FourDeckShipPlacementResult(field, shipPos);
+            ShipPlacementValidator.Result placementResult = ShipPlacementValidator.Validate(field, shipInfo); 
 
             Game.DrawField(field);
-            Game.DrawShip(shipRank:4, shipPos, placementResult);
+            Game.DrawShip(rank, shipInfo, placementResult);
 
             ConsoleKeyInfo keyInfo = Console.ReadKey();
-
-            /*
-            
-             Нажали на кнопку: 
-             - изменили координаты стрелками и смотрим:
-             - если позиция ОК или Некорректно:
-                - перерисовать поле
-                - перерисовать кораблик в зависимости от позиции
-            - иначе перейти к след итерации.
-             */
 
             while (true)
             {
                     switch (keyInfo.Key)
                     {
                     case ConsoleKey.R:
-                        if (shipPos.orientation == ShipPosition.Orientation.Horizontal)
+                        if (shipInfo.orientation == ShipInfo.Orientation.Horizontal)
                         {
-                            if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y, ShipPosition.Orientation.Vertical)) != PlacementValidator.Result.OutOfRange)
+                            if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX, shipInfo.PositionY, ShipInfo.Orientation.Vertical, rank)) != ShipPlacementValidator.Result.OutOfRange)
                             {
-                                shipPos.orientation = ShipPosition.Orientation.Vertical;
-                                currentOrientation = shipPos.orientation;
+                                shipInfo.orientation = ShipInfo.Orientation.Vertical;
+                                currentOrientation = shipInfo.orientation;
                             }
                             break;
                         }
-                        if (shipPos.orientation == ShipPosition.Orientation.Vertical)
+                        if (shipInfo.orientation == ShipInfo.Orientation.Vertical)
                         {
-                            if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y, ShipPosition.Orientation.Horizontal)) != PlacementValidator.Result.OutOfRange)
+                            if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX, shipInfo.PositionY, ShipInfo.Orientation.Horizontal, rank)) != ShipPlacementValidator.Result.OutOfRange)
                             {
-                                shipPos.orientation = ShipPosition.Orientation.Horizontal;
-                                currentOrientation = shipPos.orientation;
+                                shipInfo.orientation = ShipInfo.Orientation.Horizontal;
+                                currentOrientation = shipInfo.orientation;
                             }
                             break;
                         }
                         break;     
 
                     case ConsoleKey.RightArrow:
-                        if(PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X + 1, shipPos.Y, currentOrientation)) != PlacementValidator.Result.OutOfRange)
-                            shipPos.X += 1;
+                        if(ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX + 1, shipInfo.PositionY, currentOrientation, rank)) != ShipPlacementValidator.Result.OutOfRange)
+                            shipInfo.PositionX += 1;
                             break;
 
                         case ConsoleKey.LeftArrow:
-                        if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X - 1, shipPos.Y, currentOrientation)) != PlacementValidator.Result.OutOfRange)
-                            shipPos.X -= 1;
+                        if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX - 1, shipInfo.PositionY, currentOrientation, rank)) != ShipPlacementValidator.Result.OutOfRange)
+                            shipInfo.PositionX -= 1;
                             break;
 
                         case ConsoleKey.UpArrow:
-                        if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y - 1, currentOrientation)) != PlacementValidator.Result.OutOfRange)
-                            shipPos.Y -= 1;
+                        if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX, shipInfo.PositionY - 1, currentOrientation, rank)) != ShipPlacementValidator.Result.OutOfRange)
+                            shipInfo.PositionY -= 1;
                             break;
 
                         case ConsoleKey.DownArrow:
-                        if (PlacementValidator.FourDeckShipPlacementResult(field, new ShipPosition(shipPos.X, shipPos.Y + 1, currentOrientation)) != PlacementValidator.Result.OutOfRange)
-                            shipPos.Y += 1;
+                        if (ShipPlacementValidator.Validate(field, new ShipInfo(shipInfo.PositionX, shipInfo.PositionY + 1, currentOrientation, rank)) != ShipPlacementValidator.Result.OutOfRange)
+                            shipInfo.PositionY += 1;
                             break;
                     }
-                // после каждого изменения координат проверяем положение.
-                placementResult = PlacementValidator.FourDeckShipPlacementResult(field, shipPos);
 
-                if (placementResult != PlacementValidator.Result.OutOfRange)
+                placementResult = ShipPlacementValidator.Validate(field, shipInfo);
+
+                if (placementResult != ShipPlacementValidator.Result.OutOfRange)
                 {
                     Console.SetCursorPosition(0, 0);
                     Game.DrawField(field);
-                    Game.DrawShip(shipRank: 4, shipPos, placementResult);
+                    Game.DrawShip(rank, shipInfo, placementResult);
                 }
 
-                Console.Title = "X: " + shipPos.X + "  Y: " + shipPos.Y + "  Orientation " + currentOrientation;
-                //Console.Title = "{" + Convert.ToChar(1040 + shipPos.X) + "} -- {" + shipPos.Y + "} ";
+                Console.Title = "X: " + shipInfo.PositionX + "  |  Y: " + shipInfo.PositionY + "  |  Orientation: " + currentOrientation + "  |  State: " + placementResult;
                 keyInfo = Console.ReadKey();
             }
         }

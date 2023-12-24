@@ -242,28 +242,29 @@ namespace TheBattleShip
         }
     */
 
-        public static void DrawShip(int shipRank, ShipPosition shipPosition, PlacementValidator.Result placementResult)
+        public static void DrawShip(ShipInfo.ShipRank rank, ShipInfo shipPosition, ShipPlacementValidator.Result placementResult)
         {
-            if (placementResult == PlacementValidator.Result.OutOfRange)
+            int shipRank = (int)rank;
+            if (placementResult == ShipPlacementValidator.Result.OutOfRange)
             {
                 return;
             }
 
-            int x = (shipPosition.X * 2) + 1;
-            int y = shipPosition.Y + 1;
+            int x = (shipPosition.PositionX * 2) + 1;
+            int y = shipPosition.PositionY + 1;
             Console.SetCursorPosition(x, y);
 
             switch (placementResult)
             {
-                case PlacementValidator.Result.Correct:
+                case ShipPlacementValidator.Result.Correct:
                     Console.ForegroundColor = ConsoleColor.Green; 
                     break;
 
-                case PlacementValidator.Result.Incorrect:
+                case ShipPlacementValidator.Result.Incorrect:
                     Console.ForegroundColor = ConsoleColor.Red; 
                     break;
 
-                case PlacementValidator.Result.OutOfRange:
+                case ShipPlacementValidator.Result.OutOfRange:
                     break;
             }
 
@@ -272,7 +273,7 @@ namespace TheBattleShip
             switch (shipPosition.orientation)
             {
 
-                case ShipPosition.Orientation.Vertical:
+                case ShipInfo.Orientation.Vertical:
                     for (int i = 0; i < shipRank; i++)
                     {  
                         Console.SetCursorPosition(x , y + i);
@@ -280,14 +281,15 @@ namespace TheBattleShip
                     }
                     break;
 
-                case ShipPosition.Orientation.Horizontal:
+                case ShipInfo.Orientation.Horizontal:
                     for (int i = 0; i < shipRank; i++)
                     {         
                         Console.Write("░░");
                     }
                     break;
             }
-            Console.ResetColor();      
+            Console.ResetColor();
+            Console.Write("\b");
         }
         
 
