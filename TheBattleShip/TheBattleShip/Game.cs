@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,25 @@ namespace TheBattleShip
 {
     internal static class Game
     {
+        public static void ShowSplashScreen()
+        {
+
+            Console.SetCursorPosition(25, 7);
+            Console.WriteLine();
+            Console.WriteLine("                                                              ██                ██ ");
+            Console.WriteLine("                              █   █ ████ ████ ████ █  █ ████ █  █    ████ ████ █  █");
+            Console.WriteLine("                              ██ ██ █  █ █  █ █  █ █ █  █  █ █  █    █    █  █ █  █");
+            Console.WriteLine("                              █ █ █ █  █ ████ █    ██   █  █ █ ██    ████ █  █ █ ██");
+            Console.WriteLine("                              █   █ █  █ █    █  █ █ █  █  █ ██ █    █  █ █  █ ██ █");
+            Console.WriteLine("                              █   █ ████ █    ████ █  █ ████ █  █    ████ ████ █  █");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.Write("                          Это заставка игры бой. Для продолжения нажмите любую клавишу.");
+
+            Console.ReadKey();
+            Console.Clear();
+        }
+
         public static Cell[,] CeateNewField(int height, int width)
         {
             Cell[,] field = new Cell[height, width];
@@ -27,7 +47,9 @@ namespace TheBattleShip
             int height = (int)Math.Sqrt(myField.Length);
             int width = (int)Math.Sqrt(myField.Length);
 
-            for (int p = 0; p < height; p++)
+            Console.SetCursorPosition(0, 0);
+
+            for (int p = 0; p < width; p++)
             {
                 if (p == 0)
                     Console.Write("  " + Convert.ToChar(1040 + p));
@@ -35,7 +57,7 @@ namespace TheBattleShip
                     Console.Write(" " + Convert.ToChar(1040 + p));
             }
             Console.Write("\t");
-            for (int p = 0; p < width; p++)
+            for (int p = 0; p < height; p++)
             {
                 if (p == 0)
                     Console.Write("  " + Convert.ToChar(1040 + p));
@@ -44,12 +66,12 @@ namespace TheBattleShip
             }
             Console.WriteLine();
 
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < width; i++)
             {
                 Console.Write(i);
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < height; j++)
                 {
-                    switch (myField[i, j].cellState)
+                    switch (myField[j, i].cellState)
                     {
                         case Cell.CellState.Dead:
                             Console.ForegroundColor = ConsoleColor.Red;
@@ -75,10 +97,10 @@ namespace TheBattleShip
 
                 }
                 Console.Write("\t" + i);
-                for (int k = 0; k < width; k++)
+                for (int k = 0; k < height; k++)
                 {
 
-                    switch (enemyField[i, k].cellState)
+                    switch (enemyField[k, i].cellState)
                     {
                         case Cell.CellState.Dead:
                             Console.ForegroundColor = ConsoleColor.Red;
@@ -410,5 +432,40 @@ namespace TheBattleShip
             }
         }
 
+        public static void StartGame(ref Cell[,] playerField, ref Cell[,] cpuField)
+        {
+            int playerShipCount = 20;
+            int cpuShipCount = 20;
+
+            while (playerShipCount > 0 || cpuShipCount > 0)
+            {
+                PlayerTurn();
+                CpuTurn();
+            }
+
+            void PlayerTurn()
+            {
+                if (playerShipCount == 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Вы проиграли!");
+                    return;
+                }
+                throw new NotImplementedException();
+            }
+
+            void CpuTurn()
+            {
+                if (cpuShipCount == 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Вы выиграли!");
+                    return;
+                }
+                throw new NotImplementedException();
+            }
+        }
+
+        
     }
 }

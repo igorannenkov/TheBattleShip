@@ -11,26 +11,29 @@ namespace TheBattleShip
     {
         static void Main(string[] args)
         {
-            Cell[,] field = Game.CeateNewField(10, 10);
-            Cell[,] enemyField = Game.CeateNewField(10, 10);
+            Cell[,] playerField = Game.CeateNewField(10, 10);
+            Cell[,] cpuField = Game.CeateNewField(10, 10);
 
-            Game.DrawField(field);
+            Game.ShowSplashScreen();
 
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.FourDeck));
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.ThreeDeck));
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.ThreeDeck));
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.TwoDeck));
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.TwoDeck));
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.TwoDeck));
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.OneDeck));
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.OneDeck));
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.OneDeck));
-            Game.SetPlayerShip(ref field, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.OneDeck));
+            Game.DrawField(playerField);
 
-            Game.SetEnemyShips(ref enemyField);
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.FourDeck));
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.ThreeDeck));
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.ThreeDeck));
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.TwoDeck));
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.TwoDeck));
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.TwoDeck));
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.OneDeck));
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.OneDeck));
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.OneDeck));
+            Game.SetPlayerShip(ref playerField, new ShipInfo(5, 5, ShipInfo.Orientation.Horizontal, ShipInfo.ShipRank.OneDeck));
 
-            Game.DrawField(enemyField);
+            Game.SetEnemyShips(ref cpuField);
 
+            Game.ShowFields(playerField, cpuField);
+
+            Game.StartGame(ref playerField, ref cpuField);
         }
     }
 }
